@@ -7,9 +7,13 @@ class CoffeeShopTest {
     @Test
     void order_medium_coffee_price() {
 
+        // arrange
         CoffeeShop shop = new CoffeeShop();
+
+        // act
         double price = shop.order(DrinkType.COFFEE, SizeType.MEDIUM);
 
+        //assert
         assertEquals(price, 4.98, "Wrong price!");
 
     }
