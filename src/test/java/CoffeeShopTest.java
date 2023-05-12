@@ -23,7 +23,6 @@ class CoffeeShopTest {
 
         CoffeeShop shop = new CoffeeShop();
         double price = shop.order(DrinkType.COFFEE, SizeType.LARGE);
-
         assertEquals(price, 6.0, "Wrong price!");
 
     }

@@ -16,6 +16,7 @@ class CoffeeShopTestTea {
         // assert
         assertEquals(3.0, price, "Wrong price for TEA");
 
+        // act
         price = shop.order(DrinkType.TEA, SizeType.LARGE);
 
         // assert
