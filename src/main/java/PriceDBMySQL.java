@@ -1,7 +1,5 @@
 import java.sql.*;
 
-import com.mysql.cj.jdbc.Driver;
-
 public class PriceDBMySQL extends PriceDB {
 
     Connection mysqlConnection;
@@ -15,8 +13,8 @@ public class PriceDBMySQL extends PriceDB {
 
         try (PreparedStatement s = mysqlConnection.prepareStatement(
                 """
-                        SELECT price 
-                        FROM drinks 
+                        SELECT price
+                        FROM drinks
                         WHERE size = ? AND type = ?
                         """)) {
 
