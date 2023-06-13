@@ -1,4 +1,5 @@
 import java.sql.*;
+
 import com.mysql.cj.jdbc.Driver;
 
 public class PriceDBMySQL extends PriceDB {
@@ -12,14 +13,21 @@ public class PriceDBMySQL extends PriceDB {
 
         double price = 0;
 
-        try (Statement s = mysqlConnection.createStatement()) {
-            ResultSet rs = s.executeQuery("SELECT price FROM drinks WHERE "
-                    + "size = '" + size + "' AND "
-                    + "type = '" + type + "';");
+        try (PreparedStatement s = mysqlConnection.prepareStatement(
+                """
+                        SELECT price 
+                        FROM drinks 
+                        WHERE size = ? AND type = ?
+                        """)) {
+
+            s.setString(1, size.toString());
+            s.setString(2, type.toString());
+            ResultSet rs = s.executeQuery();
+
             while (rs.next()) {
                 price = rs.getDouble("price");
-
             }
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
