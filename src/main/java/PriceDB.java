@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class PriceDB {
 
-    private ArrayList<Beverage> beverageList = new ArrayList<>();
+    private final ArrayList<Beverage> beverageList = new ArrayList<>();
 
 
     public double findPrice(SizeType size, DrinkType type) {
