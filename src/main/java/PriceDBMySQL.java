@@ -1,22 +1,46 @@
+import org.apache.commons.dbcp2.BasicDataSource;
+
+import javax.sql.DataSource;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
+import java.util.Properties;
 
 public class PriceDBMySQL extends PriceDB {
 
-    Connection mysqlConnection;
-    String driverClass = "com.mysql.cj.jdbc.Driver";
-    String mysqlUrl = "jdbc:mysql://localhost:3306/coffeeshop";
+    private static final String PROPERTIES_FILE = "database.properties";
+
+    private static BasicDataSource dataSource = new BasicDataSource();
+
+    static {
+
+        Properties properties = loadProperties();
+        String driverClass = properties.getProperty("driverClass");
+
+        String mysqlUrl = properties.getProperty("databaseUrl");
+        dataSource.setDriverClassName(driverClass);
+        dataSource.setUrl(mysqlUrl);
+        dataSource.setUsername(properties.getProperty("username"));
+        dataSource.setPassword(properties.getProperty("password"));
+
+    }
+
+
+
 
     @Override
     public double findPrice(SizeType size, DrinkType type) {
 
         double price = 0;
 
-        try (PreparedStatement s = mysqlConnection.prepareStatement(
+        try (Connection mysqlConnection = dataSource.getConnection();
+             PreparedStatement s = mysqlConnection.prepareStatement(
                 """
                         SELECT price
                         FROM drinks
                         WHERE size = ? AND type = ?
-                        """)) {
+                        """))
+        {
 
             s.setString(1, size.toString());
             s.setString(2, type.toString());
@@ -33,18 +57,17 @@ public class PriceDBMySQL extends PriceDB {
         return price;
     }
 
-    public PriceDBMySQL() {
-        try {
-            Class.forName(driverClass);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+
+    private static Properties loadProperties() {
+        Properties properties = new Properties();
+
+        try (InputStream input = PriceDBMySQL.class.getClassLoader().getResourceAsStream(PROPERTIES_FILE)) {
+            properties.load(input);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-        try {
-            mysqlConnection = DriverManager.getConnection(mysqlUrl, "paul", "baibai");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
+        return properties;
     }
 }
+
