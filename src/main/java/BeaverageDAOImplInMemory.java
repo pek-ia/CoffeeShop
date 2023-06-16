@@ -1,6 +1,7 @@
 import java.util.ArrayList;
+import java.util.List;
 
-public class PriceDB {
+public class BeaverageDAOImplInMemory implements BeverageDAO {
 
     private final ArrayList<Beverage> beverageList = new ArrayList<>();
 
@@ -13,12 +14,19 @@ public class PriceDB {
         return value;
     }
 
+    public List<Beverage> findBeveragesByType(DrinkType type){
+        List<Beverage> bevs = new ArrayList<Beverage>();
+        for (Beverage b : beverageList) {
+            if (b.getType() == type) bevs.add(b);
+        }
+        return bevs;
+    }
 
-    public PriceDB() {
+    public BeaverageDAOImplInMemory() {
         this.beverageList.add( new Beverage(SizeType.SMALL, 8.00, DrinkType.COFFEE));
         this.beverageList.add( new Beverage(SizeType.MEDIUM, 4.98, DrinkType.COFFEE));
         this.beverageList.add( new Beverage(SizeType.LARGE, 6.00, DrinkType.COFFEE));
-        this.beverageList.add( new Beverage(SizeType.SMALL, 180.00, DrinkType.TEA));
+        this.beverageList.add( new Beverage(SizeType.SMALL, 1.80, DrinkType.TEA));
         this.beverageList.add( new Beverage(SizeType.MEDIUM, 3.00, DrinkType.TEA));
         this.beverageList.add( new Beverage(SizeType.LARGE, 6.00, DrinkType.TEA));
     }

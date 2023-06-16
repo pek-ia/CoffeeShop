@@ -1,12 +1,13 @@
 import org.apache.commons.dbcp2.BasicDataSource;
 
-import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
-public class PriceDBMySQL extends PriceDB {
+public class BeverageDAOImplMySql implements BeverageDAO {
 
     private static final String PROPERTIES_FILE = "database.properties";
 
@@ -25,8 +26,39 @@ public class PriceDBMySQL extends PriceDB {
 
     }
 
+    @Override
+    public List<Beverage> findBeveragesByType(DrinkType type) {
+
+        List<Beverage> result = new ArrayList<>();
 
 
+        try (Connection mysqlConnection = dataSource.getConnection();
+             PreparedStatement s = mysqlConnection.prepareStatement(
+                     """
+                             SELECT *
+                             FROM drinks
+                             WHERE type = ?
+                             """))
+        {
+
+            s.setString(1, type.toString());
+            ResultSet rs = s.executeQuery();
+
+
+            while (rs.next()) {
+                Beverage b = new Beverage(SizeType.valueOf( rs.getString("size").toUpperCase() ),
+                        rs.getDouble("price"),
+                        DrinkType.valueOf( rs.getString("type").toUpperCase()));
+                result.add(b);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return result;
+
+    }
 
     @Override
     public double findPrice(SizeType size, DrinkType type) {
@@ -61,7 +93,7 @@ public class PriceDBMySQL extends PriceDB {
     private static Properties loadProperties() {
         Properties properties = new Properties();
 
-        try (InputStream input = PriceDBMySQL.class.getClassLoader().getResourceAsStream(PROPERTIES_FILE)) {
+        try (InputStream input = BeverageDAOImplMySql.class.getClassLoader().getResourceAsStream(PROPERTIES_FILE)) {
             properties.load(input);
         } catch (IOException e) {
             e.printStackTrace();

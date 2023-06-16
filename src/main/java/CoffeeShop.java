@@ -5,7 +5,7 @@ public class CoffeeShop {
     double order(DrinkType beverage, SizeType size) {
 
 
-        PriceDB db = new PriceDBMySQL();
+        BeverageDAO db = new BeverageDAOImplMySql();
         double price = db.findPrice(size, beverage);
 
 

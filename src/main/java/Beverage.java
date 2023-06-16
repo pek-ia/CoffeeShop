@@ -1,3 +1,6 @@
+/**
+ * Beverage Bean - A Model Object
+ */
 public class Beverage {
     private SizeType size;
     private double price;
