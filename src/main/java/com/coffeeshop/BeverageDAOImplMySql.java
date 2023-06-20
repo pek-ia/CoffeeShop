@@ -1,4 +1,7 @@
+package com.coffeeshop;
+
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+
+@Component
 public class BeverageDAOImplMySql implements BeverageDAO {
 
     private static final String PROPERTIES_FILE = "database.properties";

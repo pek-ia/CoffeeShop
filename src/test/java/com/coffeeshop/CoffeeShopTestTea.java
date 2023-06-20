@@ -1,3 +1,5 @@
+package com.coffeeshop;
+
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -7,7 +9,7 @@ class CoffeeShopTestTea {
     @Test
     void order_tea_price() {
         // Arrange
-        CoffeeShop shop = new CoffeeShop();
+        CoffeeShop shop = new CoffeeShop(new BeverageDAOImplMySql());
 
         // act
         double price;

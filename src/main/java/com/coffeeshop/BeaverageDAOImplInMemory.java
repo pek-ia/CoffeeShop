@@ -1,3 +1,5 @@
+package com.coffeeshop;
+
 import java.util.ArrayList;
 import java.util.List;
 

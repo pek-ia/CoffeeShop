@@ -1,5 +1,7 @@
+package com.coffeeshop;
+
 /**
- * Beverage Bean - A Model Object
+ * com.coffeeshop.Beverage Bean - A Model Object
  */
 public class Beverage {
     private SizeType size;

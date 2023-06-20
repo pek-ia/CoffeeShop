@@ -1,3 +1,5 @@
+package com.coffeeshop;
+
 import java.util.List;
 
 public interface BeverageDAO {
