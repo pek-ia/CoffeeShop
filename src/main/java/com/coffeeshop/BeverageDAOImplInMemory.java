@@ -3,7 +3,7 @@ package com.coffeeshop;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BeaverageDAOImplInMemory implements BeverageDAO {
+public class BeverageDAOImplInMemory implements BeverageDAO {
 
     private final ArrayList<Beverage> beverageList = new ArrayList<>();
 
@@ -24,7 +24,7 @@ public class BeaverageDAOImplInMemory implements BeverageDAO {
         return bevs;
     }
 
-    public BeaverageDAOImplInMemory() {
+    public BeverageDAOImplInMemory() {
         this.beverageList.add( new Beverage(SizeType.SMALL, 8.00, DrinkType.COFFEE));
         this.beverageList.add( new Beverage(SizeType.MEDIUM, 4.98, DrinkType.COFFEE));
         this.beverageList.add( new Beverage(SizeType.LARGE, 6.00, DrinkType.COFFEE));
